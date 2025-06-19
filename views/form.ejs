@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= form.title %></title>
+  <link href="/styles.css" rel="stylesheet" />
+</head>
+<body>
+  <div class="container">
+    <h2><%= form.title %></h2>
+    <p><%= form.description %></p>
+    <form method="POST">
+      <% form.fields.forEach(field => { %>
+        <div style="margin-bottom: 1rem;">
+          <label><%= field.label %></label><br>
+
+          <% if (field.type === 'text') { %>
+            <input type="text" name="<%= field.label %>" />
+
+          <% } else if (field.type === 'email') { %>
+            <input type="email" name="<%= field.label %>" />
+
+          <% } else if (field.type === 'number') { %>
+            <input type="number" name="<%= field.label %>" />
+
+          <% } else if (field.type === 'date') { %>
+            <input type="date" name="<%= field.label %>" />
+
+          <% } else if (field.type === 'radio') { %>
+            <% field.options.forEach(opt => { %>
+              <label><input type="radio" name="<%= field.label %>" value="<%= opt %>" /> <%= opt %></label><br>
+            <% }) %>
+
+          <% } else if (field.type === 'checkbox') { %>
+            <% field.options.forEach(opt => { %>
+              <label><input type="checkbox" name="<%= field.label %>" value="<%= opt %>" /> <%= opt %></label><br>
+            <% }) %>
+
+          <% } else if (field.type === 'dropdown') { %>
+            <select name="<%= field.label %>">
+              <% field.options.forEach(opt => { %>
+                <option value="<%= opt %>"><%= opt %></option>
+              <% }) %>
+            </select>
+          <% } %>
+        </div>
+      <% }) %>
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+</body>
+</html>

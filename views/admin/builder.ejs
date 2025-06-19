@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Form Builder</title>
+  <link href="/styles.css" rel="stylesheet" />
+  <script>
+  function addField() {
+    const type = document.getElementById('type').value;
+    const label = document.getElementById('label').value;
+    const options = document.getElementById('options').value.split(',');
+
+    const container = document.getElementById('fields');
+    const preview = document.getElementById('preview');
+
+    // Hidden field for backend
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'fields';
+    input.value = JSON.stringify({ label, type, options });
+    container.appendChild(input);
+
+    // PREVIEW UI
+    const fieldDiv = document.createElement('div');
+    fieldDiv.innerHTML = `<label>${label}</label>`;
+
+    if (type === 'text') {
+      fieldDiv.innerHTML += `<input type="text" placeholder="${label}" disabled />`;
+    } else if (type === 'radio') {
+      options.forEach(opt => {
+        fieldDiv.innerHTML += `<label><input type="radio" name="${label}" disabled /> ${opt}</label><br>`;
+      });
+    } else if (type === 'checkbox') {
+      options.forEach(opt => {
+        fieldDiv.innerHTML += `<label><input type="checkbox" name="${label}" disabled /> ${opt}</label><br>`;
+      });
+    } else if (type === 'dropdown') {
+      let select = `<select disabled>`;
+      options.forEach(opt => {
+        select += `<option>${opt}</option>`;
+      });
+      select += `</select>`;
+      fieldDiv.innerHTML += select;
+    }
+
+    preview.appendChild(fieldDiv);
+
+    // Clear inputs
+    document.getElementById('label').value = '';
+    document.getElementById('options').value = '';
+  }
+</script>
+
+</head>
+<body>
+  <div class="container">
+    <h2>Create Form</h2>
+    <form method="POST" action="/admin/save">
+      <input name="title" placeholder="Form Title" required />
+      <input name="description" placeholder="Description" />
+
+      <h3>Add Fields</h3>
+      <input id="label" placeholder="Label" />
+      <select id="type">
+        <option value="text">Text</option>
+        <option value="radio">Radio</option>
+        <option value="checkbox">Checkbox</option>
+        <option value="dropdown">Dropdown</option>
+        <option value="email">Email</option>
+        <option value="number">Number</option>
+        <option value="date">Date</option>
+
+      </select>
+      <input id="options" placeholder="Comma-separated options (if any)" />
+      <button type="button" onclick="addField()">Add Field</button>
+
+      <div id="fields"></div>
+
+      <button type="submit">Save Form</button>
+    </form>
+  </div>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Responses - <%= form.title %></title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="container ">
+    <h1>Responses for "<%= form.title %>"</h1>
+    <% if (responses.length === 0) { %>
+      <p>No responses yet.</p>
+    <% } else { %>
+      <% responses.forEach((res, i) => { %>
+        <div style="margin-bottom: 1rem; border-bottom: 1px solid #ccc; padding-bottom: 0.5rem;" class="wrap">
+          <h3>Response <%= i + 1 %>:</h3>
+          <% for (let key in res.answers) { %>
+            <p><strong><%= key %>:</strong> <%= res.answers[key] %></p>
+          <% } %>
+        </div>
+      <% }) %>
+    <% } %>
+    <a href="/admin">← Back to Dashboard</a>
+  </div>
+</body>
+</html>

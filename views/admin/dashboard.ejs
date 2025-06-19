@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Dashboard</title>
+  <link href="/styles.css" rel="stylesheet" />
+</head>
+<body>
+  <div class="container">
+    <h1>Admin Dashboard</h1>
+    <a href="/admin/new">Create New Form</a>
+
+    <ul>
+      <% forms.forEach(form => { %>
+        <li>
+          <strong><%= form.title %></strong> &nbsp;
+          <form method="POST" action="/admin/delete/<%= form._id %>" style="display:inline">
+            <button type="submit">Delete</button>
+          </form><br>
+          <a href="/form/<%= form._id %>">Preview</a>&nbsp;&nbsp;&nbsp;
+          <a href="/admin/responses/<%= form._id %>">Responses</a>
+        </li>
+        <hr>
+      <% }) %>
+    </ul>
+  </div>
+</body>
+</html>
